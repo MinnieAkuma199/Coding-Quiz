@@ -1,4 +1,9 @@
 
+body {
+    background-color: lightblue;
+    color: rgb(12, 10, 10);
+}
+
 .hide {
     display:none
 };
