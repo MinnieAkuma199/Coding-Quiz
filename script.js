@@ -1,7 +1,7 @@
 //Variables
 var timerEl = document.querySelector(".timerDiv");
 var timer;
-var timerCount = 100;
+var timerCount = 10;
 
 var questionTracker = 0;
 // ARRAY for each question
