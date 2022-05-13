@@ -2,82 +2,118 @@
 var timerEl = document.querySelector(".timerDiv");
 var timer;
 var timerCount = 100;
-// ARRAY for Question and for choices
-const questions = ['What is the best pet?', 'What is the best fruit?', 'What is the best smell?'];
 
-const choices = ['a)cat', 'b)dog', 'c)fish', 'a)pear', 'b)apple', 'c)peach', 'a)fresh grass', 'b)gasoline', 'c)new leather'];
+var questionTracker = 0;
+// ARRAY for each question
 
-// const correctAnswers = [];
-//would i want to make an array with correct answers to check against?
+const quizQuestions = [
+  {
+    title: "What is the best pet?",
+    choices: ["cat", "dog", "fish"],
+    answer: "dog",
+  },
+  {
+    title: "What is the best fruit?",
+    choices: ["pear", "apple", "peach"],
+    answer: "pear",
+  },
+  {
+    title: "What is the best smell?",
+    choices: ["fresh grass", "gasoline", "new leather"],
+    answer: "gasoline",
+  },
+];
+
+function checkAnswer(userChoice) {
+  if (userChoice === quizQuestions[questionTracker].answer) {
+    alert("you got the answer right!");
+  } else {
+    alert("You messed up!");
+    timerCount -= 5;
+  }
+}
 
 function startTimer() {
   // Sets timer
-  timer = setInterval(function() {
+  timer = setInterval(function () {
     timerCount--;
     timerEl.textContent = timerCount;
     // Tests if time has run out
     if (timerCount === 0) {
       // Clears interval
       clearInterval(timer);
-      alert("Your time is 🆙 ")
+      // alert("Your time is 🆙 ");put endGame function in here 
       return;
     }
-  }, 1000); //1000 ms = 1second, this is calling this one per second 
+  }, 1000); //1000 ms = 1second, this is calling this one per second
 }
-
-//Q1 is displayed, i have buttons, when the wrong choice is selected then i want an alert, when the right one is selected i want an alert-- how do i capture the selected button and how do i check if it was the correct answer?
 
 function startGame() {
   var displayQ1 = document.querySelector(".displayQuestions");
-  console.log(questions[0]);
-  console.log(choices[1]);
-  var button1 = document.createElement("button")
-  var button2 = document.createElement("button")
-  var button3 = document.createElement("button")
-  displayQ1.textContent = (questions[0]); 
-  displayQ1.appendChild(button1).textContent = (choices[0]); 
-  displayQ1.appendChild(button2).textContent = (choices[1]);
-  displayQ1.appendChild(button3).textContent = (choices[2]);
-  //i am trying to call to all button elements i created above*****
-  // document.getElementsByTagName("button")
-  //   .addEventListener("click", function (event) {
-  //   alert("Button has been clicked!");
-  //   event.preventDefault(); maybe click moves them on to the next function and alert will tell you if you got it wrong, and then figure out how to subtract time
-  // })
+  //innerHTML needed or else buttons and p tags would not be removed instead of using .innertext
+  displayQ1.innerHTML = "";
+  console.log(quizQuestions[0]);
+  var button1 = document.createElement("button");
+  var button2 = document.createElement("button");
+  var button3 = document.createElement("button");
+  var currentQuestion = document.createElement("p");
+  button1.textContent = quizQuestions[questionTracker].choices[0];
+  button2.textContent = quizQuestions[questionTracker].choices[1];
+  button3.textContent = quizQuestions[questionTracker].choices[2];
+  currentQuestion.textContent = quizQuestions[questionTracker].title;
+  displayQ1.append(currentQuestion, button1, button2, button3);
 
+  button1.addEventListener("click", function (event) {
+    event.preventDefault();
+    console.log(event.target);
+    checkAnswer(event.target.textContent);
+    questionTracker++;
+    console.log(questionTracker);
+    startGame();
+  });
+  button2.addEventListener("click", function (event) {
+    event.preventDefault();
+    console.log(event.target);
+    checkAnswer(event.target.textContent);
+    questionTracker++;
+    console.log(questionTracker);
+    startGame();
+  });
+  button3.addEventListener("click", function (event) {
+    event.preventDefault();
+    console.log(event.target);
+    checkAnswer(event.target.textContent);
+    questionTracker++;
+    console.log(questionTracker);
+    startGame();
+  });
 }
-// --have them call to each other--
-// function startGame2() { this is for q2 
+
+// so below this should give this section the class hide again and we want it to remove it from the next section 
+// endQuiz() {
+//   if questionTracker =>5 then end the quiz 
 // }
 
-// function startGame3() { this is for q3
+//need a form for the initials and when they hit submit then we grab and save their initials and score as an array 
+//creating an empty array for highscore
+// highscoreArray = []
+//   < form > <input id="initials-input"/>
+// <button>Submit</button>
+// </form>
+//then we want an even listener for the submit button on form
+//when clicked grab the initials user put in
+  //create an object
+  //var hischsc..look on screenshot!
 
-// }
 
 //EVENT LISTENERS
-document.querySelector(".startButton").addEventListener("click", function (event) {
-  event.preventDefault();
-  startGame()
-  //1.making questions visible -- we want to reassign the class it already has to a new class that should be unhidden 
-  document.querySelector("#questionSection").setAttribute("class", "");
-  startTimer(); //load timer function when button is clicked
-  document.querySelector("#startSection").setAttribute("class", "hide");
-});
-
-// let Q1 = {};
-// Q1['question'] = [""];
-// Q1['choices'] = ['a) cat', 'b) dog', 'c) turtle',];
-// Q1['correct'] = ['a'];
-// console.log(Q1)
-
-// let Q2 = {};
-// Q2['question'] = ['This is a question'];
-// Q2['choices'] = ['a', 'b', 'c',];
-// Q2['correct'] = ['b'];
-// console.log(Q2)
-
-// let Q3 = {};
-// Q3['question'] = ['This is a question'];
-// Q3['choices'] = ['a', 'b', 'c',];
-// Q3['correct'] = ['c'];
-// console.log(Q3)
+document
+  .querySelector(".startButton")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    startGame();
+    //1.making questions visible -- we want to reassign the class it already has to a new class that should be unhidden
+    document.querySelector("#questionSection").setAttribute("class", "");
+    startTimer(); //load timer function when button is clicked
+    document.querySelector("#startSection").setAttribute("class", "hide");
+  });
