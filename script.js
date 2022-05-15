@@ -4,8 +4,8 @@ var timer;
 var timerCount = 10;
 
 var questionTracker = 0;
-// ARRAY for each question
 
+// ARRAY for each question
 const quizQuestions = [
   {
     title: "What is the best pet?",
